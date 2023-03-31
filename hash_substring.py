@@ -1,5 +1,6 @@
 # Edzus Kivilands 221RDB339
 # python3
+#testing git
 
 def read_input():
     # this function needs to aquire input both from keyboard and file
