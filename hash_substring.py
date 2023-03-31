@@ -12,8 +12,9 @@ def read_input():
         if 'a' not in input_file:
             try:
                 with open(input_file, "r") as f:
-                    pattern = f.readline()
-                    text = f.readline()
+                    pattern = f.readline().rstrip()
+                    text = f.readline().rstrip()
+                    print(pattern,text)
                     return pattern, text
 
             except FileNotFoundError:
@@ -38,21 +39,24 @@ def print_occurrences(output):
     print(' '.join(map(str, output)))
 
 def get_occurrences(pattern, text):
-    # this function should find the occurances using Rabin Karp alghoritm 
-    pattern_hash = hash(pattern)
-    text_hash = hash(text[:len(pattern)])
+    p = len(pattern)
+    t = len(text)
+    p_hash = sum(ord(pattern[i]) * pow(101, i) for i in range(p)) # Calculate pattern hash
+    t_hash = sum(ord(text[i]) * pow(101, i) for i in range(p)) # Calculate hash of the first segment of text
     output = []
     
-    for i in range(len(text) - len(pattern) + 1):
-        if text_hash == pattern_hash:
-            if text[i:i+len(pattern)] == pattern:
+    for i in range(t - p + 1):
+        if p_hash == t_hash: # Compare the hash values
+            if text[i:i+p] == pattern: # If hash values are same, then check if the pattern actually matches
                 output.append(i)
-        
-        if i < len(text) - len(pattern):
-            text_hash = hash(text[i+1:i+len(pattern)+1])
-    
+                print(i)
+                
+        if i < t - p: # Calculate hash for next segment of text
+            t_hash = t_hash - ord(text[i])
+            t_hash = t_hash // 101
+            t_hash += ord(text[i+p]) * pow(101, p-1)
+            
     return output
-    # and return an iterable variable
 
 
 # this part launches the functions
