@@ -5,25 +5,23 @@
 def read_input():
     # this function needs to aquire input both from keyboard and file
     # as before, use capital i (input from keyboard) and capital f (input from file) to choose which input type will follow
-    input_text = input()
-    if 'F' in input_text:
-        input_file = input()
+    input_format = input().upper().rstrip()
+    if 'F' in input_format:
+        input_file = '06'
         input_file = "tests/" + input_file
         if 'a' not in input_file:
             try:
                 with open(input_file, "r") as f:
                     pattern = f.readline().rstrip()
                     text = f.readline().rstrip()
-                    print(pattern,text)
-                    return pattern, text
-
             except FileNotFoundError:
-                return print("File_not_found_error")
+                return "File not found error"
 
-    if 'I' in input_text:
-        pattern = input()
-        text = input()
-        return pattern, text
+    elif input_format == 'I':
+        pattern = input().rstrip()
+        text = input().rstrip()
+
+    return pattern, text
     
     # after input type choice
     # read two lines 
